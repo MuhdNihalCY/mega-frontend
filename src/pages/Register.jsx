@@ -16,7 +16,7 @@ export default function Register() {
     try {
       const userData = await registerUser({ name, userName, password })
       login(userData.token, userData.user)
-      navigate('/dashboard')
+      navigate('/')
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed')
     }

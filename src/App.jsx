@@ -4,6 +4,8 @@ import AdminDashboard from './pages/AdminDashboard';
 import KanbanBoard from './pages/KanbanBoard';
 import PrivateRoute from './components/PrivateRoute';
 import { useAuth } from './context/AuthContext';
+import Login from './pages/Login';
+
 
 function App() {
   const { user } = useAuth();
@@ -12,6 +14,7 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={
           <PrivateRoute>
             {user?.designation === 'Admin' ? <AdminDashboard /> : <KanbanBoard />}

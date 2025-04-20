@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { loginUser } from "../api/auth";
 
 export default function Login() {
   const [userName, setUserName] = useState("");
@@ -12,15 +11,10 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     try {
-      const response = await loginUser({ userName, password });
-      login(response.token, {
-        userName: response.user.userName,
-        designation: response.user.designation,
-        branchID: response.user.branchID,
-        branch: response.user.branch,
-      });
-      navigate("/dashboard");
+      await login(userName, password);
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     }
@@ -34,7 +28,7 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 mb-2" htmlFor="userName">
-              UserName
+              Username
             </label>
             <input
               type="text"

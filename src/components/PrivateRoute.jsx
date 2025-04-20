@@ -1,13 +1,18 @@
 import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
-export default function PrivateRoute({ children }) {
-  const { user } = useAuth()
+export default function PrivateRoute({ children, requiredRole }) {
+  const { user, loading } = useAuth();
   const location = useLocation()
 
-  if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />
+  if (loading) return <div>Loading...</div>;
+
+  if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
+
+  if (requiredRole && user.role !== requiredRole) {
+    return <Navigate to="/unauthorized" />;
   }
+
   
   return children
 }
